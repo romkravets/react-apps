@@ -5,7 +5,7 @@ import './styles.scss';
 
 const Homepage = props => {
    return (
-      <section className="main homepage">
+      <section className="homepage">
             <Directory/>
       </section>
    );
