@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { withRouter } from 'react-router-dom';
 import './styles.scss';
 import FormInput from './../forms/FormInput';
 import Button from './../forms/Button';
@@ -35,6 +36,7 @@ const Signup = props => {
         const { user } = await auth.createUserWithEmailAndPassword(email, password);
 
          await handleUserProfile(user, {displayName});
+         props.history.push('/');
 
          reset();
       } catch(err) {
@@ -101,4 +103,4 @@ const Signup = props => {
       );
 }
 
-export default Signup;
+export default withRouter(Signup);
