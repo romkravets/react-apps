@@ -1,12 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import './styles.scss';
 import { auth } from './../../firebase/utils';
 
-import Logo from './../../assets/logo.png'
+import Logo from './../../assets/logo.png';
+
+const mapState = ({user}) => ({
+    currentUser: user.currentUser
+});
 
 const Header = props => {
-    const { currentUser } = props;
+    const { currentUser } = useSelector(mapState);
+    
     return (
         <header className="header">
             <div className="wrap">
@@ -15,7 +21,10 @@ const Header = props => {
                 </div>
                 <div className="callToActions">
                     {currentUser && (
-                        <ul><li><span onClick={() => auth.signOut()}>LogOut</span></li></ul>
+                        <ul>
+                            <li><Link to="/dashboard">My Account</Link></li>
+                            <li><span onClick={() => auth.signOut()}>LogOut</span></li>
+                        </ul>
                     )}
 
                     {!currentUser && (
@@ -32,6 +41,8 @@ const Header = props => {
 
 Header.defaultProps = {
     currentUser: null
-}
+};
+
+
 
 export default Header;
