@@ -1,13 +1,22 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { withRouter } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import './styles.scss';
 import FormInput from './../forms/FormInput';
 import Button from './../forms/Button';
 import AuthWrapper from './../AuthWrapper';
 
-import { auth, handleUserProfile } from './../../firebase/utils';
+import { signUpUser, resetAllAuthForms } from './../../redux/User/user.actions';
+
+const mapState = ({user}) => ({
+   signUpSuccess: user.signUpSuccess,
+   signUpError: user.signUpError
+})
+
 
 const Signup = props => {
+   const {signUpSuccess, signUpError} = useSelector(mapState);
+   const dispatch = useDispatch();
    const [displayName, setDisplayName] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
@@ -22,26 +31,46 @@ const Signup = props => {
       setErrors('');
    }
 
-
-   const handleFormSubmit = async event => {
-      event.preventDefault();
-
-      if(password !== confirmPassword) {
-         const err = ['Passworrd Don\'t match'];
-         setErrors(err);
-         return;
-      }
-
-      try {
-        const { user } = await auth.createUserWithEmailAndPassword(email, password);
-
-         await handleUserProfile(user, {displayName});
-         props.history.push('/');
-
+   useEffect(() => {
+      if (signUpSuccess) {
          reset();
-      } catch(err) {
-         //console.log(err)
+         dispatch(resetAllAuthForms());
+         props.history.push('/');
       }
+   }, [signUpSuccess]);
+
+   useEffect(() => {
+      if(Array.isArray(signUpError) && signUpError.length > 0) {
+         setErrors(signUpError);
+      }
+   }, [signUpError]);
+
+
+   const handleFormSubmit = e => {
+      e.preventDefault();
+      dispatch(signUpUser({
+         displayName,
+         email,
+         password,
+         confirmPassword
+      }))
+
+      // if(password !== confirmPassword) {
+      //    const err = ['Passworrd Don\'t match'];
+      //    setErrors(err);
+      //    return;
+      // }
+
+      // try {
+      //   const { user } = await auth.createUserWithEmailAndPassword(email, password);
+
+      //    await handleUserProfile(user, {displayName});
+      //    props.history.push('/');
+
+      //    reset();
+      // } catch(err) {
+      //    //console.log(err)
+      // }
    }
 
       const configAuthWrapper = {
