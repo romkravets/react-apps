@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { auth, handleUserProfile } from './firebase/utils';
-import {setCurrentUser} from './redux/User/user.actions'
+//import { auth, handleUserProfile } from './firebase/utils';
+import {setCurrentUser, checkUserSession} from './redux/User/user.actions'
 
 //hoc
 import WithAuth from './components/hoc/withAuth';
@@ -24,24 +24,28 @@ import './default.scss';
 const App = props => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
+    useEffect(() => {
+      dispatch(checkUserSession());
+    }, []);
+
+  // useEffect(() => {
     
-    const authLisener = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await handleUserProfile(userAuth);
-        userRef.onSnapshot(snapshot => {
-          dispatch(setCurrentUser({
-              id: snapshot.id,
-              ...snapshot.data()
-          }));
-        });
-      }
-      dispatch(setCurrentUser(userAuth));
-    });
-    return () => {
-        authLisener();
-    }
-  }, []);
+  //   const authLisener = auth.onAuthStateChanged(async userAuth => {
+  //     if (userAuth) {
+  //       const userRef = await handleUserProfile(userAuth);
+  //       userRef.onSnapshot(snapshot => {
+  //         dispatch(setCurrentUser({
+  //             id: snapshot.id,
+  //             ...snapshot.data()
+  //         }));
+  //       });
+  //     }
+  //     dispatch(setCurrentUser(userAuth));
+  //   });
+  //   return () => {
+  //       authLisener();
+  //   }
+  // }, []);
       
       return (
         <div className="App">
