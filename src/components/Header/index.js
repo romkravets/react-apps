@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { signOutUserStart } from './../../redux/User/user.actions';
 import './styles.scss';
-import { auth } from './../../firebase/utils';
 
 import Logo from './../../assets/logo.png';
 

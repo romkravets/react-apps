@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { signUpUserStart } from './../../redux/User/user.actions';
+
 import './styles.scss';
+
 import FormInput from './../forms/FormInput';
 import Button from './../forms/Button';
 import AuthWrapper from './../AuthWrapper';
-
-import { signUpUserStart } from './../../redux/User/user.actions';
-//import { signUpUser, resetAllAuthForms } from './../../redux/User/user.actions';
 
 const mapState = ({user}) => ({
    currentUser: user.currentUser,
@@ -16,8 +16,9 @@ const mapState = ({user}) => ({
 
 
 const Signup = props => {
-   const {currentUser, userErr} = useSelector(mapState);
    const dispatch = useDispatch();
+   const history = useHistory();
+   const {currentUser, userErr} = useSelector(mapState);
    const [displayName, setDisplayName] = useState('');
    const [email, setEmail] = useState('');
    const [password, setPassword] = useState('');
@@ -35,8 +36,7 @@ const Signup = props => {
    useEffect(() => {
       if (currentUser) {
          reset();
-         //dispatch(resetAllAuthForms());
-         props.history.push('/');
+         history.push('/');
       }
    }, [currentUser]);
 
@@ -55,23 +55,6 @@ const Signup = props => {
          password,
          confirmPassword
       }))
-
-      // if(password !== confirmPassword) {
-      //    const err = ['Passworrd Don\'t match'];
-      //    setErrors(err);
-      //    return;
-      // }
-
-      // try {
-      //   const { user } = await auth.createUserWithEmailAndPassword(email, password);
-
-      //    await handleUserProfile(user, {displayName});
-      //    props.history.push('/');
-
-      //    reset();
-      // } catch(err) {
-      //    //console.log(err)
-      // }
    }
 
       const configAuthWrapper = {
@@ -133,4 +116,4 @@ const Signup = props => {
       );
 }
 
-export default withRouter(Signup);
+export default Signup;
