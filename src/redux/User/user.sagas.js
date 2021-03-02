@@ -1,10 +1,10 @@
 import { takeLatest, call, all, put } from 'redux-saga/effects';
 import { auth, handleUserProfile, getCurrentUser, GoogleProvider } from './../../firebase/utils';
 import userTypes from './user.types';
-import { signInSuccess, signOutUserSuccess, userError } from './user.actions';
+import { signInSuccess, signOutUserSuccess, resetPasswordSuccess, userError } from './user.actions';
 //import { signInSuccess, signOutUserSuccess, resetPasswordSuccess, userError } from './user.actions';
 
-//import { handleResetPasswordAPI } from './user.helpers';
+import { handleResetPasswordAPI } from './user.helpers';
 
 export function* getSnapshotFromUserAuth(user, additionalData = {}) {
   try {
@@ -97,37 +97,37 @@ export function* onSignUpUserStart() {
   yield takeLatest(userTypes.SIGN_UP_USER_START, signUpUser);
 }
 
-// export function* resetPassword({ payload: { email }}) {
-//   try {
-//     yield call(handleResetPasswordAPI, email);
-//     yield put(
-//       resetPasswordSuccess()
-//     );
+export function* resetPassword({ payload: { email }}) {
+  try {
+    yield call(handleResetPasswordAPI, email);
+    yield put(
+      resetPasswordSuccess()
+    );
 
-//   } catch (err) {
-//     yield put(
-//       userError(err)
-//     )
-//   }
-// }
+  } catch (err) {
+    yield put(
+      userError(err)
+    )
+  }
+}
 
-// export function* onResetPasswordStart() {
-//   yield takeLatest(userTypes.RESET_PASSWORD_START, resetPassword);
-// }
+export function* onResetPasswordStart() {
+  yield takeLatest(userTypes.RESET_PASSWORD_START, resetPassword);
+}
 
-// export function* googleSignIn() {
-//   try {
-//     const { user } = yield auth.signInWithPopup(GoogleProvider);
-//     yield getSnapshotFromUserAuth(user);
+export function* googleSignIn() {
+  try {
+    const { user } = yield auth.signInWithPopup(GoogleProvider);
+    yield getSnapshotFromUserAuth(user);
 
-//   } catch (err) {
-//     // console.log(err);
-//   }
-// }
+  } catch (err) {
+    // console.log(err);
+  }
+}
 
-// export function* onGoogleSignInStart() {
-//   yield takeLatest(userTypes.GOOGLE_SIGN_IN_START, googleSignIn);
-// }
+export function* onGoogleSignInStart() {
+  yield takeLatest(userTypes.GOOGLE_SIGN_IN_START, googleSignIn);
+}
 
 
 export default function* userSagas() {
@@ -136,7 +136,7 @@ export default function* userSagas() {
     call(onCheckUserSession),
     call(onSignOutUserStart),
     call(onSignUpUserStart),
-    //call(onResetPasswordStart),
-    //call(onGoogleSignInStart),
+    call(onResetPasswordStart),
+    call(onGoogleSignInStart),
   ])
 }

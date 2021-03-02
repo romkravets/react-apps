@@ -5,7 +5,7 @@ import Buttons from './../forms/Button';
 
 import './styles.scss';
 // import { signInWithGoogle } from './../../firebase/utils';
-import { emailSignInStart, signInWithGoogle, resetAllAuthForms, setCurrentUser } from './../../redux/User/user.actions';
+import { emailSignInStart, googleSignInStart, resetAllAuthForms, setCurrentUser } from './../../redux/User/user.actions';
 import FormInput from './../forms/FormInput';
 import AuthWrapper from './../AuthWrapper';
 
@@ -40,7 +40,7 @@ const SignIn = props =>  {
    }
 
    const handleGoogleSignIn = () => {
-      dispatch(signInWithGoogle())
+      dispatch(googleSignInStart())
    }
 
       const configAuthWrapper = {
