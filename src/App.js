@@ -1,11 +1,17 @@
 import React, {useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import { auth, handleUserProfile } from './firebase/utils';
-import {setCurrentUser} from './redux/User/user.actions'
+//import { auth, handleUserProfile } from './firebase/utils';
+import {setCurrentUser, checkUserSession} from './redux/User/user.actions'
+
+//components
+
+import AdminToolbar from './components/AdminToolbar';
 
 //hoc
 import WithAuth from './components/hoc/withAuth';
+import WithAdminAuth from './components/hoc/withAdminAuth';
+
 
 //pages
 import Homepage from './pages/Homepage';
@@ -13,6 +19,7 @@ import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Recovery from './pages/Recovery';
 import Dashboard from './pages/Dashboard';
+import Admin from './pages/Admin';
 
 //layouts
 import MainLayout from './layouts/MainLayout'
@@ -24,27 +31,13 @@ import './default.scss';
 const App = props => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    
-    const authLisener = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await handleUserProfile(userAuth);
-        userRef.onSnapshot(snapshot => {
-          dispatch(setCurrentUser({
-              id: snapshot.id,
-              ...snapshot.data()
-          }));
-        });
-      }
-      dispatch(setCurrentUser(userAuth));
-    });
-    return () => {
-        authLisener();
-    }
-  }, []);
+    useEffect(() => {
+      dispatch(checkUserSession());
+    }, []);
       
       return (
         <div className="App">
+            <AdminToolbar/>
             <Switch>
                 <Route exact path="/"  
                   render={() => (
@@ -77,6 +70,14 @@ const App = props => {
                           <Dashboard/>
                       </MainLayout>
                     </WithAuth>
+                )}/>
+                <Route path="/admin"
+                  render={() =>  (
+                    <WithAdminAuth>
+                      <MainLayout>
+                          <Admin/>
+                      </MainLayout>
+                    </WithAdminAuth>
                 )}/>
               </Switch>
         </div>

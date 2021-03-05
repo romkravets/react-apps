@@ -2,53 +2,39 @@ import userTypes from './user.types';
 
 const INITIAL_STATE = {
    currentUser: null,
-   signInSuccess: false,
-   signUpSuccess: false,
-   signUpError: [],
    resetPaswordSuccess: false,
-   resetPaswordError: []
+   userErr: []
+   // signInSuccess: false,
+   // signUpSuccess: false,
+   // signUpError: [],
+   // resetPaswordSuccess: false,
+   // resetPaswordError: []
 };
 
 const userReducer = (state=INITIAL_STATE, action) => {
    switch(action.type) {
-      case userTypes.SET_CURRENT_USER:
+
+      case userTypes.SIGN_IN_SUCCESS:  
          return {
             ...state,
-            currentUser: action.payload
+            currentUser: action.payload,
+            userErr: []
          }
-      case userTypes.SIGN_IN_SUCCESS:
+      case userTypes.RESET_PASSWORD_SUCCESS:  
          return {
             ...state,
-            signInSuccess: action.payload
+            resetPaswordSuccess: action.payload
          }
-      case userTypes.SIGN_UP_SUCCESS:
+      case userTypes.USER_ERROR:  
          return {
             ...state,
-            signUpSuccess: action.payload
+            userErr: action.payload
          }
-      case userTypes.SIGN_UP_ERROR:
+      case userTypes.RESET_USER_STATE:
+      case userTypes.SIGN_OUT_USER_SUCCESS:  
          return {
             ...state,
-            signUpError: action.payload
-         }
-      case userTypes.RESET_PASSWORD_SUCCESS:
-         return {
-              ...state,
-              resetPaswordSuccess: action.payload
-         }
-       case userTypes.RESET_PASSWORD_ERROR:
-         return {
-              ...state,
-              resetPaswordError: action.payload
-         }
-      case userTypes.RESET_AUTH_FORMS:
-         return {
-            ...state,
-            signInSuccess: false,
-            signUpSuccess: false,
-            signUpError: [],
-            resetPaswordSuccess: false,
-            resetPaswordError:[]
+            ...INITIAL_STATE
          }
       default:
          return state;
