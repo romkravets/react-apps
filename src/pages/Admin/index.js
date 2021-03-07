@@ -23,7 +23,7 @@ const Admin = props => {
   const [productPrice, setProductPrice] = useState(0);
   const [productDesc, setProductDesc] = useState('');
 
-  const { data, queryDoc, isLastPage } = products;
+  //const { data, queryDoc, isLastPage } = products;
 
   useEffect(() => {
     dispatch(

@@ -39,19 +39,20 @@ export const  handleFetchProducts = () => {
    })
 }
 
-export const  handleDeleteProduct = documenID => {
-   return new Promise((resolve, reject) => {
-      firestore
-         .collection('products')
-         .doc(documenID)
-         .delete()
-         .then(() => {
-            resolve();
-         })
-         .catch(err => {
-            reject(err)
-         })
-   })
+export const handleDeleteProduct = documentID => {
+  return new Promise((resolve, reject) => {
+    firestore
+      .collection('products')
+      .doc(documentID)
+      .delete()
+      .then(() => {
+        console.log(documentID, 2)
+        resolve();
+      })
+      .catch(err => {
+        reject(err);
+      })
+  });
 }
 
 

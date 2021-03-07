@@ -52,19 +52,20 @@ export function* onFetchProductsStart() {
    yield takeLatest(productsTypes.FETCH_PRODUCTS_START, fetchProducts)
 }
 
-export function* deleteProduct({payload}) {
-   try {
-     yield handleDeleteProduct(payload)
-     yield put(
-         fetchProductsStart()
-      )
-   } catch (err) {
-      //cansole.log(err)
-   }
+export function* deleteProduct({ payload }) {
+  try {
+    yield handleDeleteProduct(payload);
+    yield put (
+      fetchProductsStart()
+    );
+
+  } catch (err) {
+    // console.log(err);
+  }
 }
 
-export function* onDeleteProductsStart() {
-   yield takeLatest(productsTypes.DELETE_PRODUCT_START, deleteProduct)
+export function* onDeleteProductStart() {
+  yield takeLatest(productsTypes.DELETE_PRODUCT_START, deleteProduct);
 }
 
 
@@ -72,7 +73,7 @@ export default function* productsSagas() {
    yield all([
       call(onAddProductStart),
       call(onFetchProductsStart),
-      call(deleteProduct)
+      call(onDeleteProductStart),
    ])
 }
 
