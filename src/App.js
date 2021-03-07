@@ -15,6 +15,7 @@ import WithAdminAuth from './components/hoc/withAdminAuth';
 
 //pages
 import Homepage from './pages/Homepage';
+import Search from './pages/Search';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import Recovery from './pages/Recovery';
@@ -41,14 +42,17 @@ const App = props => {
         <div className="App">
             <AdminToolbar/>
             <Switch>
-                <Route exact path="/"  
-                  render={() => (
+                <Route exact path="/"  render={() => (
                   <HomepageLayout>
                     <Homepage/>
                   </HomepageLayout>
                   )}/>
-                <Route path="/registration" 
-                 render={() =>  (
+                <Route exact path="/search"  render={() => (
+                  <MainLayout>
+                    <Search/>
+                  </MainLayout>
+                  )}/>
+                <Route path="/registration" render={() =>  (
                   <MainLayout>
                     <Registration/>
                   </MainLayout>

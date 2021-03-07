@@ -16,13 +16,11 @@ export const  handleAddProduct = product => {
    })
 }
 
-
-
-
 export const  handleFetchProducts = () => {
    return new Promise((resolve, reject) => {
       firestore
          .collection('products')
+         .orderBy('cteatedDate')
          .get()
          .then((snapshot) => {
             const productArray = snapshot.docs.map(doc => {
