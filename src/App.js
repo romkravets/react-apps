@@ -24,6 +24,8 @@ import Admin from './pages/Admin';
 //layouts
 import MainLayout from './layouts/MainLayout'
 import HomepageLayout from './layouts/HomepageLayout'
+import AdminLayout from './layouts/AdminLayout';
+import DashboardLayout from './layouts/DashboardLayout';
 
 import './default.scss';
 
@@ -71,14 +73,20 @@ const App = props => {
                       </MainLayout>
                     </WithAuth>
                 )}/>
-                <Route path="/admin"
-                  render={() =>  (
+                {/* <Route path="/order/:orderID" render={() => (
+                    <WithAuth>
+                      <DashboardLayout>
+                        <Order />
+                      </DashboardLayout>
+                    </WithAuth>
+                  )} /> */}
+                  <Route path="/admin" render={() => (
                     <WithAdminAuth>
-                      <MainLayout>
-                          <Admin/>
-                      </MainLayout>
+                      <AdminLayout>
+                        <Admin />
+                      </AdminLayout>
                     </WithAdminAuth>
-                )}/>
+                  )} />
               </Switch>
         </div>
     );
