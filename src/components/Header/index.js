@@ -24,6 +24,24 @@ const Header = props => {
                  <div className="logo">
                  <Link to="/"><img src={Logo} alt="SimpleTut LOGO" /></Link>
                 </div>
+
+                <nav>
+                {/* className={`mainMenu ${activeMenu ? 'active' : ''}`} */}
+                    <ul>
+                        <li>
+                        <Link to="/">
+                            Home
+                        </Link>
+                        </li>
+                        <li>
+                        <Link to="/search">
+                            Search
+                        </Link>
+                        </li>
+                    </ul>
+                </nav>
+
+
                 <div className="callToActions">
                     {currentUser && (
                         <ul>
