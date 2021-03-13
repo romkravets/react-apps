@@ -21,6 +21,7 @@ import Login from './pages/Login';
 import Recovery from './pages/Recovery';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
+import ProductDetails from './pages/ProductDetails';
 
 //layouts
 import MainLayout from './layouts/MainLayout'
@@ -29,7 +30,6 @@ import AdminLayout from './layouts/AdminLayout';
 import DashboardLayout from './layouts/DashboardLayout';
 
 import './default.scss';
-
 
 const App = props => {
   const dispatch = useDispatch();
@@ -43,44 +43,49 @@ const App = props => {
             <AdminToolbar/>
             <Switch>
                 <Route exact path="/"  render={() => (
-                  <HomepageLayout>
-                    <Homepage/>
-                  </HomepageLayout>
+                    <HomepageLayout>
+                      <Homepage/>
+                    </HomepageLayout>
                   )}/>
                 <Route exact path="/search"  render={() => (
-                  <MainLayout>
-                    <Search/>
-                  </MainLayout>
+                    <MainLayout>
+                      <Search/>
+                    </MainLayout>
                   )}/>
                 <Route path="/search/:filterType"  render={() => (
-                  <MainLayout>
-                    <Search/>
-                  </MainLayout>
+                    <MainLayout>
+                      <Search/>
+                    </MainLayout>
+                  )}/>
+                 <Route path="/product/:productID"  render={() => (
+                    <MainLayout>
+                      <ProductDetails/>
+                    </MainLayout>
                   )}/>
                 <Route path="/registration" render={() =>  (
-                  <MainLayout>
-                    <Registration/>
-                  </MainLayout>
+                    <MainLayout>
+                      <Registration/>
+                    </MainLayout>
                   )}/>
                 <Route path="/login"
                   render={() => (
-                    <MainLayout>
-                      <Login/>
-                    </MainLayout>
+                      <MainLayout>
+                        <Login/>
+                      </MainLayout>
                 )}/>
                 <Route path="/recovery"
                   render={() =>  (
-                    <MainLayout>
-                      <Recovery/>
-                    </MainLayout>
+                      <MainLayout>
+                        <Recovery/>
+                      </MainLayout>
                 )}/>
                 <Route path="/dashboard"
                   render={() =>  (
-                    <WithAuth>
-                      <MainLayout>
-                          <Dashboard/>
-                      </MainLayout>
-                    </WithAuth>
+                      <WithAuth>
+                        <MainLayout>
+                            <Dashboard/>
+                        </MainLayout>
+                      </WithAuth>
                 )}/>
                 {/* <Route path="/order/:orderID" render={() => (
                     <WithAuth>
