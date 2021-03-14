@@ -22,7 +22,8 @@ import Recovery from './pages/Recovery';
 import Dashboard from './pages/Dashboard';
 import Admin from './pages/Admin';
 import ProductDetails from './pages/ProductDetails';
-import Cart from './pages/Cart/index';
+import Cart from './pages/Cart';
+import Payment from './pages/Payment';
 
 //layouts
 import MainLayout from './layouts/MainLayout'
@@ -68,6 +69,13 @@ const App = props => {
                       <Cart/>
                     </MainLayout>
                   )}/>
+                  <Route path="/payment"  render={() => (
+                     <WithAuth>
+                      <MainLayout>
+                          <Payment />
+                      </MainLayout>
+                     </WithAuth>
+                )}/>
                 <Route path="/registration" render={() =>  (
                     <MainLayout>
                       <Registration/>
