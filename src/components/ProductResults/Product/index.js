@@ -10,13 +10,14 @@ const Product = (product) => {
   const {
     documentID,
     productThumbnail,
+    url,
     productName,
     productPrice
   } = product;
 
-  if (!documentID || !productThumbnail || !productName ||
-    typeof productPrice === 'undefined') return null;
-    console.log(product);
+  // if (!documentID || !productThumbnail || !productName ||
+  //   typeof productPrice === 'undefined') return null;
+     console.log(product, "product");
 
   const configAddToCartBtn = {
     type: 'button'

@@ -82,7 +82,7 @@ const ProductResults = ({}) => {
 
           <div className="productResults">
             {data.map((product, pos) => {
-               const {productThumbnail, productName, productPrice} = product;
+               const {productThumbnail, productName, url, productPrice} = product;
                
                const configProduct = {
                   ...product

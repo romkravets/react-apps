@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProductStart, fetchProductsStart, deleteProductStart } from './../../redux/Products/products.actions';
+import {storage} from "./../../firebase/utils";
+
 import Modal from './../../components/Modal';
 import FormInput from './../../components/forms/FormInput';
 import FormSelect from './../../components/forms/FormSelect';
 import Button from './../../components/forms/Button';
 import LoadMore from './../../components/LoadMore';
 import CKEditor from 'ckeditor4-react';
+
 import './styles.scss';
 
 const mapState = ({ productsData }) => ({
@@ -16,6 +19,7 @@ const mapState = ({ productsData }) => ({
 const Admin = props => {
   const { products } = useSelector(mapState);
   const dispatch = useDispatch();
+
   const [hideModal, setHideModal] = useState(true);
   const [productCategory, setProductCategory] = useState('mens');
   const [productName, setProductName] = useState('');
@@ -24,6 +28,8 @@ const Admin = props => {
   const [productDesc, setProductDesc] = useState('');
 
   const { data, queryDoc, isLastPage } = products;
+
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     dispatch(
@@ -50,17 +56,27 @@ const Admin = props => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    dispatch(
-       addProductStart({
-        productCategory,
-        productName,
-        productThumbnail,
-        productPrice,
-        productDesc,
-       })
-     );
-    resetForm();
-
+     const uploadTask = storage.ref(`/images/${file.name}`).put(file);
+      uploadTask.on("state_changed", console.log, console.error, () => {
+        storage
+          .ref("images")
+          .child(file.name)
+          .getDownloadURL()
+          .then((productThumbnail) => {
+            setFile(null);
+            setProductThumbnail(productThumbnail);
+            dispatch(
+              addProductStart({
+                productCategory,
+                productName,
+                productThumbnail,
+                productPrice,
+                productDesc,
+              })
+            );
+           resetForm();
+          });
+      });
   };
 
   const handleLoadMore = () => {
@@ -124,6 +140,13 @@ const Admin = props => {
             />
 
             <FormInput
+              label="Add Image"
+              type="file"
+              //value={productImageFile}
+              handleChange={e => setFile(e.target.files[0])}
+            />
+
+            <FormInput
               label="Price"
               type="number"
               min="0.00"
@@ -166,6 +189,7 @@ const Admin = props => {
                       const {
                         productName,
                         productThumbnail,
+                        url,
                         productPrice,
                         documentID
                       } = product;
@@ -173,7 +197,7 @@ const Admin = props => {
                       return (
                         <tr key={index}>
                           <td>
-                            <img className="thumb" src={productThumbnail} />
+                            <img className="thumb" src={productThumbnail} alt={productName} />
                           </td>
                           <td>
                             {productName}
