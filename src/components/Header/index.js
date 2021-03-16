@@ -57,7 +57,7 @@ const Header = props => {
             <li>
               <Link to="/cart">
                 Your Cart ({totalNumCartItems})
-                <i class="fas fa-shopping-basket"></i>
+                <i class="fas fa-shopping-basket"></i>                
               </Link>
             </li>
 

@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 import { selectCartItems, selectCartTotal } from './../../redux/Cart/cart.selectors';
 import { createStructuredSelector } from 'reselect';
 import Button from './../forms/Button';
+import BackBtn from './../BackBtn/index';
+
 import Item from './Item';
 
 import './styles.scss';
@@ -16,12 +18,17 @@ const mapStste = createStructuredSelector({
 const Checkout = ({})  => {
    const { cartItems, total } = useSelector(mapStste);
    const history = useHistory();
+   console.log(history , "history");
 
   const errMsg = 'You have no items in your cart.';
    return (
       <div className="checkout">
-         <h1>Checkout</h1>
+            <h1>Checkout</h1>
          <div className="cart">
+         <div>
+            <BackBtn onClick={() => history.goBack()}><i class="fas fa-caret-left"></i> Back</BackBtn>
+
+            </div>
          {cartItems.length > 0 ? (
             <table border="0" cellPadding="0" cellSpacing="0">
                <tbody>

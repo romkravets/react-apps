@@ -11,13 +11,15 @@ import LoadMore from './../../components/LoadMore';
 import CKEditor from 'ckeditor4-react';
 
 import './styles.scss';
+import Spinner from './../../components/Spinner/index';
 
 const mapState = ({ productsData }) => ({
-  products: productsData.products
+  products: productsData.products,
+  loading: productsData.loading
 });
 
 const Admin = props => {
-  const { products } = useSelector(mapState);
+  const { products, loading } = useSelector(mapState);
   const dispatch = useDispatch();
 
   const [hideModal, setHideModal] = useState(true);
@@ -27,7 +29,12 @@ const Admin = props => {
   const [productPrice, setProductPrice] = useState(0);
   const [productDesc, setProductDesc] = useState('');
 
+  const {loadingData} = loading;
+  const [load, setLoad] =  useState(false);
+  console.log(load);
+
   const { data, queryDoc, isLastPage } = products;
+  console.log(loading, " loading: false loading: false loading: false loading: false")
 
   const [file, setFile] = useState(null);
 
@@ -35,6 +42,7 @@ const Admin = props => {
     dispatch(
       fetchProductsStart()
     );
+    setLoad(true)
   }, []);
 
   const toggleModal = () => setHideModal(!hideModal);
@@ -86,6 +94,7 @@ const Admin = props => {
           persistProducts: data
       })
     );
+     setLoad(true)
   };
 
   const configLoadMore = {
@@ -189,15 +198,22 @@ const Admin = props => {
                       const {
                         productName,
                         productThumbnail,
-                        url,
                         productPrice,
                         documentID
                       } = product;
 
+
+                       let imgOrders = <img className="thumb" loading="lazy" src={productThumbnail} alt={productName} />
+
+                        if (!load) {
+                          imgOrders = <Spinner />;
+                        }
+                        
                       return (
                         <tr key={index}>
                           <td>
-                            <img className="thumb" src={productThumbnail} alt={productName} />
+                            {/* <img className="thumb" src={productThumbnail} alt={productName} /> */}
+                            {imgOrders}
                           </td>
                           <td>
                             {productName}

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductStart, setProduct } from './../../redux/Products/products.actions';
 import { addProduct } from './../../redux/Cart/cart.actions';
 import Button from './../forms/Button';
+import BackBtn from './../BackBtn/index';
 
 import './styles.scss';
 
@@ -54,7 +55,8 @@ const ProductCard = ({}) => {
    return (
       <div className="productCard">
       <div className="hero">
-        <img src={productThumbnail} />
+      <BackBtn onClick={() => history.goBack()}><i class="fas fa-caret-left"></i> Back</BackBtn>
+        <img loading="lazy" src={productThumbnail} alt={productName} />
       </div>
       <div className="productDetails">
         <ul>
